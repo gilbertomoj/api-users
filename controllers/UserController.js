@@ -20,12 +20,12 @@ class UserController{
             const error = "Um cadastro com esse email ja foi realizado"
             errors.push(error);
         }
-        if (email == "" || email == undefined) {
+        if (email == "" || email == undefined || email === " ") {
             const error = "O campo >> email << não pode ficar vazio"
             errors.push(error);
 
         }   
-        if (password == "" || password == undefined) {
+        if (password == "" || password == undefined || password === " ") {
             const error = "O campo >> senha << não pode ficar vazio"
             errors.push(error);
                                     
@@ -130,9 +130,12 @@ class UserController{
                 var token = jwt.sign({email: user.email, role: user.role}, secret);
                 res.status(200).send({token})
 
+            }else{
+                res.status(406).json({err: "Senha incorreta"})
             }
         } else {
-            res.json({status: false});
+            res.status(406);
+            res.json({status: false, err: "O usuário não existe"}); 
         }
     }
 }
